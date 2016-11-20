@@ -5,10 +5,14 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+
+import java.security.Key;
+
 /**
  * Created by Leanyka on 02/10/16.
  */
@@ -33,22 +37,33 @@ public class Helloworldproject extends Application {
         gc.fillText("Flappy Bird", 60, 50);
         gc.strokeText("Flappy Bird", 60, 50);
         Image bird = new Image("bird.png");
-        Image clouds = new Image("clouds.png");
         Image space = new Image("space.png");
         final long startNanoTime = System.nanoTime();
         new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-                double x = 232 + 128 * Math.cos(t);
-                double y = 232 + 128 * Math.sin(t);
                 // background image clears canvas
                 gc.drawImage(space, 0, 0);
-                gc.drawImage(clouds, x, y);
                 linnuKorgus = linnuKorgus + 10;
-                gc.drawImage(bird, 50, linnuKorgus);
+                gc.drawImage(bird, 10, linnuKorgus);
+
             }
         }.start();
         theStage.show();
+
+        theScene.setOnKeyPressed(event -> {
+            KeyCode code = event.getCode();
+            if (code == KeyCode.RIGHT) {
+                linnuKorgus++;
+            } else if (code == KeyCode.LEFT) {
+                linnuKorgus--;
+            } else if (code == KeyCode.UP) {
+                linnuKorgus = -10;
+            }
+
+        });
+
+
     }
 }
